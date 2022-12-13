@@ -258,8 +258,9 @@ Resources:
             systemctl start nginx
             cd ~
             git clone https://github.com/iwouldrathercode/pilot.git
+            cd pilot
             git checkout 00-application-provisioning
-            cp pilot/revised_implementation/application/index.html /usr/share/nginx/html/index.html
+            cp revised_implementation/application/index.html /usr/share/nginx/html/index.html
       ImageId: 'ami-094125af156557ca2'
       InstanceType: !Ref InstanceType
       SecurityGroups:
