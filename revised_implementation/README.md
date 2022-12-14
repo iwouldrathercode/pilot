@@ -1,33 +1,28 @@
 # Revised implementation
 
-Implentation involves the following steps
-
-1. Create a new `EC2 KeyPair` key to be used later to connect from localhost using `AWS CLI`
-2. Provision an EC2 virtual machine with AWS CloudFormation in `us-east-1` region on `default VPC`
+Implemention involves creating a AWS CloudFormation stack by uploading the appropriate `.yaml` file.
 
 ---
 
-## Step 1:
+## Create a server VPC with only Public Subnets:
 
-Create a key pair on AWS by executing below command on your terminal. Ensure AWS CLI is installed and configured with a default profile on your localhost.
-
-```sh
-aws ec2 create-key-pair --key-name MyKeyPair --region us-east-1
-```
+Import the `vpc-public-subnets-stack.yaml` file on AWS CloudFormation
 
 ---
 
-## Step 2:
+## Create a server VPC with only Private Subnets:
 
-Navigate to AWS CloudFormation and import the `stack.yaml` file as a `New Stack with existing resources` and Choose `Upload file` and Create Stack.
-
-Wait for `CREATE_COMPLETE` status on the CloudFormation stack and open the `Outputs` tab, click on the `WebsiteURL` to open the site.
+Import the `vpc-private-subnets-stack.yaml` file on AWS CloudFormation
 
 ---
+
+## Create a server VPC with Public & Private Subnets:
+
+Import the `vpc-public-private-subnets-ipv4-stack.yaml` file on AWS CloudFormation.
+
+Optionally `vpc-public-private-subnets-ipv4-ipv6-stack.yaml` can be uploaded for VPC with ipv6 support.
 
 ## Services used
 
-- AWS CLI
 - AWS CloudFormation
-- AWS EC2
 - Amazon VPC
