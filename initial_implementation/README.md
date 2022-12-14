@@ -23,9 +23,9 @@ Follow through steps needed to create a hypervisor on your on-premise virtual ma
 
 ## Step 5:
 
-Once the instance is launched download the application folder's index.html to web-server's home directory, for webserver such as nginx the default directory is `/var/www/html`
+Once the instance is launched download the application folder's index.html to web-server's home directory, for webserver such as nginx the default directory is `/usr/share/nginx/html/`
 
-Finally html file will be at `/var/www/html/index.html`.
+Finally html file will be at `/usr/share/nginx/html/index.html`.
 
 ---
 
