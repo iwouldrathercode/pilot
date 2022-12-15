@@ -25,7 +25,7 @@ Resources:
           !Sub |
             #!/bin/bash
             yum update -y
-            yum install httpd -y
+            yum install httpd git -y
             amazon-linux-extras install -y php7.2 -y
             cd ~
             git clone https://github.com/iwouldrathercode/pilot.git
