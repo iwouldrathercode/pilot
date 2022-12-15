@@ -25,21 +25,21 @@ Resources:
           !Sub |
             #!/bin/bash
             yum update -y
-            amazon-linux-extras install nginx1 -y 
-            yum install git -y
-            amazon-linux-extras enable php8.0 -y
-            clean metadata
-            yum install php php-cli php-mysqlnd php-pdo php-common php-fpm -y
-            yum install php-gd php-mbstring php-xml php-dom php-intl php-simplexml -y
-            systemctl enable nginx
-            systemctl start nginx
-            systemctl start php-fpm
-            systemctl enable php-fpm
+            yum install httpd -y
+            amazon-linux-extras install -y php7.2 -y
             cd ~
             git clone https://github.com/iwouldrathercode/pilot.git
             cd pilot
             git checkout 02-server-availability
-            cp initial_implementation/application/index.html /usr/share/nginx/html/index.php
+            cp initial_implementation/application/index.php /var/www/html/index.php
+            systemctl start httpd
+            systemctl enable httpd
+            usermod -a -G apache ec2-user
+            chown -R ec2-user:apache /var/www
+            chmod 2775 /var/www && find /var/www -type d -exec sudo chmod 2775 {} \;
+            find /var/www -type f -exec sudo chmod 0664 {} \;
+            systemctl start httpd
+            systemctl enable httpd
       ImageId: 'ami-0b0dcb5067f052a63'
       InstanceType: 't2.micro'
       SecurityGroups:
