@@ -33,12 +33,21 @@ Resources:
             git clone https://github.com/iwouldrathercode/pilot.git
             cd pilot
             git checkout 02-server-availability
-            cp revised_implementation/application/index.html /usr/share/nginx/html/index.html
+            cp initial_implementation/application/index.html /usr/share/nginx/html/index.php
       ImageId: 'ami-0b0dcb5067f052a63'
       InstanceType: 't2.micro'
       SecurityGroups:
         - !Ref WebServerSecurityGroup
       KeyName: 'MyKeyPair'
+      Tags: 
+        - Key: "Name"
+          Value: "02-server_initial_implementation"
+        - Key: "Project"
+          Value: "pilot"
+        - Key: "Branch"
+          Value: "02-sever-availability"
+        - Key: "Implementation"
+          Value: "initial"
   WebServerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:

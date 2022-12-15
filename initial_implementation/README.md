@@ -18,6 +18,8 @@ aws ec2 create-key-pair --key-name MyKeyPair --region us-east-1
 
 Navigate to AWS CloudFormation and import the `stack.yaml` file as a `New Stack with existing resources` and Choose `Upload file` and Create Stack.
 
+Ensure this stack is deployed in a region where there are only one default VPC, since the stack.yaml has no explicit mention about the VPC-ID, CloudFormation will deploy in a random Subnet of a random VPC.
+
 Wait for `CREATE_COMPLETE` status on the CloudFormation stack and open the `Outputs` tab, click on the `WebsiteURL` to open the site.
 
 ---
