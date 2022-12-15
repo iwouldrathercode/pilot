@@ -1,28 +1,15 @@
 # Revised implementation
 
-Implemention involves creating a AWS CloudFormation stack by uploading the appropriate `.yaml` file.
+Implentation involves provisioning AWS CloudFormation stack, to create 2 EC2 instances on multiple subnets / different availability zones.
+
+> BONUS: You will be also introduced to `aws-cdk` in this scenario
 
 ---
 
-## Create a server VPC with only Public Subnets:
-
-Import the `vpc-public-subnets-stack.yaml` file on AWS CloudFormation
-
----
-
-## Create a server VPC with only Private Subnets:
-
-Import the `vpc-private-subnets-stack.yaml` file on AWS CloudFormation
-
----
-
-## Create a server VPC with Public & Private Subnets:
-
-Import the `vpc-public-private-subnets-ipv4-stack.yaml` file on AWS CloudFormation.
-
-Optionally `vpc-public-private-subnets-ipv4-ipv6-stack.yaml` can be uploaded for VPC with ipv6 support.
+## Building AWS CloudFormation via an `aws-cdk` project
 
 ## Services used
 
+- AWS CDK
 - AWS CloudFormation
 - Amazon VPC

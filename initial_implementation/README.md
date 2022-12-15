@@ -1,29 +1,30 @@
 # Initial implementation
 
-Implemention involves the following steps, all the steps are been done manually. There is no automation in place.
+Implemention involves the following steps, running 2 EC2 instances on the same subnet, by running the same CloudFormation script twice.
 
 ---
 
-## Create a server VPC with only Public Subnets:
+## Step 1:
 
-Follow through steps needed to create a VPC with Public Subnets on AWS cloud by following aws docs.
+Create a key pair on AWS by executing below command on your terminal. Ensure AWS CLI is installed and configured with a default profile on your localhost.
 
-[Tutorial: Create a server VPC with only Public Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario1.html)
-
----
-
-## Create a server VPC with only Private Subnets:
-
-Follow through steps needed to create a VPC with Private Subnets on AWS cloud by following aws docs.
-
-[Tutorial: Create a server VPC with only Private Subnets]()
+```sh
+aws ec2 create-key-pair --key-name MyKeyPair --region us-east-1
+```
 
 ---
 
-## Create a server VPC with Public & Private Subnets:
+## Step 2:
 
-Follow through steps needed to create a VPC with Public & Private Subnets on AWS cloud by following aws docs.
+Navigate to AWS CloudFormation and import the `stack.yaml` file as a `New Stack with existing resources` and Choose `Upload file` and Create Stack.
 
-- AWS Site-to-Site VPN access steps can be skipped
+Wait for `CREATE_COMPLETE` status on the CloudFormation stack and open the `Outputs` tab, click on the `WebsiteURL` to open the site.
 
-[Tutorial: VPC with public and private subnets and AWS Site-to-Site VPN access](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html)
+---
+
+## Services used
+
+- AWS CLI
+- AWS CloudFormation
+- AWS EC2
+- Amazon VPC
