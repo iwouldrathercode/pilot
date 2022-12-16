@@ -44,10 +44,10 @@ Resources:
       InstanceType: 't2.micro'
       SecurityGroups:
         - !Ref WebServerSecurityGroup
-      KeyName: 'MyKeyPair'
+      KeyName: !Ref KeyName
       Tags: 
         - Key: "Name"
-          Value: "02-server_initial_implementation"
+          Value: "02-server-availability-initial_implementation"
         - Key: "Project"
           Value: "pilot"
         - Key: "Branch"
