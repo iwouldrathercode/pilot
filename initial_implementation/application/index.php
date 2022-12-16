@@ -419,6 +419,16 @@
             </div>
           </div>
 
+          <div class="p-6">
+            <div class="flex items-center">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 dark:text-white text-gray-900">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div class="ml-4 text-lg leading-7 font-semibold">
+                <span class="text-gray-900 dark:text-white"><?php echo file_get_contents('http://169.254.169.254/latest/meta-data/instance-id'); ?></span>
+              </div>
+            </div>
+          </div>
 
         </div>
       </div>
