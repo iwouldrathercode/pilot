@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+function fetchHostName()
+{
+  $hostname = file_get_contents('http://169.254.169.254/latest/meta-data/public-hostname');
+  return (empty($hostname)) ? "No Public DNS - (EC2 in a private subnet)" : $hostname;
+}
+?>
 
 <head>
   <meta charset="utf-8" />
@@ -413,7 +420,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 00-.12-1.03l-2.268-9.64a3.375 3.375 0 00-3.285-2.602H7.923a3.375 3.375 0 00-3.285 2.602l-2.268 9.64a4.5 4.5 0 00-.12 1.03v.228m19.5 0a3 3 0 01-3 3H5.25a3 3 0 01-3-3m19.5 0a3 3 0 00-3-3H5.25a3 3 0 00-3 3m16.5 0h.008v.008h-.008v-.008zm-3 0h.008v.008h-.008v-.008z" />
               </svg>
               <div class="ml-4 text-lg leading-7 font-semibold">
-                <span class="text-gray-900 dark:text-white"><?php echo file_get_contents('http://169.254.169.254/latest/meta-data/public-hostname'); ?></span>
+                <span class="text-gray-900 dark:text-white"><?php echo $fetchHostName() ?></span>
               </div>
             </div>
           </div>
