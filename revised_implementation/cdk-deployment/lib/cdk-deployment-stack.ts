@@ -1,4 +1,4 @@
-import * as cdk from 'aws-cdk-lib/core';
+import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as autoscaling from 'aws-cdk-lib/aws-autoscaling';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
@@ -68,7 +68,7 @@ export class CdkDeploymentStack extends cdk.Stack {
         ec2.InstanceSize.MICRO
       ),
       machineImage: new ec2.AmazonLinuxImage({
-        generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2022
+        generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
       }),
       userData: userData,
       minCapacity: 2,
