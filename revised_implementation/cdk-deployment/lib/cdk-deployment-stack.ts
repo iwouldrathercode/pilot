@@ -3,7 +3,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as autoscaling from 'aws-cdk-lib/aws-autoscaling';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 
-export class CdkDeploymentStack extends cdk.Stack {
+export class LoadBalancedAppStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -61,7 +61,7 @@ export class CdkDeploymentStack extends cdk.Stack {
       'systemctl enable httpd',
     );
 
-    const asg = new autoscaling.AutoScalingGroup(this, 'asg_for_scaling', {
+    const asg = new autoscaling.AutoScalingGroup(this, '02-server-availability-revised_implementation', {
       vpc,
       instanceType: ec2.InstanceType.of(
         ec2.InstanceClass.BURSTABLE2,
@@ -102,3 +102,13 @@ export class CdkDeploymentStack extends cdk.Stack {
 
   }
 }
+
+const app = new cdk.App();
+new LoadBalancedAppStack(app, 'alb-asg-app-stack', {
+  tags: {
+    "Name": "02-server-availability-revised_implementation",
+    "Project": "pilot",
+    "Branch": "02-sever-availability",
+    "Implementation": "revised"
+  }
+})
