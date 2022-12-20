@@ -3,7 +3,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as autoscaling from 'aws-cdk-lib/aws-autoscaling';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 
-export class LoadBalancedAppStack extends cdk.Stack {
+export class CdkDeploymentStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -40,7 +40,24 @@ export class LoadBalancedAppStack extends cdk.Stack {
       open: true
     });
 
+    /**
+     * Selecting our Instance Type / Hardware of the EC2 instance
+     */
+    const instanceType = ec2.InstanceType.of(
+      ec2.InstanceClass.BURSTABLE2,
+      ec2.InstanceSize.MICRO
+    );
 
+    /**
+     * Selecting the AMI / machine image for the EC2 instance
+     */
+    const machineImage = new ec2.AmazonLinuxImage({
+      generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
+    })
+
+    /**
+     * Crafting the user-data for the EC2 instance
+     */
     const userData = ec2.UserData.forLinux();
     userData.addCommands(
       'yum update -y',
@@ -61,21 +78,25 @@ export class LoadBalancedAppStack extends cdk.Stack {
       'systemctl enable httpd',
     );
 
-    const asg = new autoscaling.AutoScalingGroup(this, '02-server-availability-revised_implementation', {
+    /**
+     * Autoscaling group with the 
+     * Newly created VPC
+     * InstanceType, AMI & user-date for EC2
+     * Min and Max capacity ranges for EC2
+     */
+    const asg = new autoscaling.AutoScalingGroup(this, 'asg_revised_implementation', {
       vpc,
-      instanceType: ec2.InstanceType.of(
-        ec2.InstanceClass.BURSTABLE2,
-        ec2.InstanceSize.MICRO
-      ),
-      machineImage: new ec2.AmazonLinuxImage({
-        generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
-      }),
-      userData: userData,
+      instanceType,
+      machineImage,
+      userData,
       minCapacity: 2,
       maxCapacity: 3
     });
 
-    listener.addTargets('target_group_for_alb', {
+    /**
+     * Target group for ALB assgining to the EC2 of ASG
+     */
+    listener.addTargets('target-group-for-alb', {
       port: 80,
       targets: [asg],
       healthCheck: {
@@ -86,29 +107,27 @@ export class LoadBalancedAppStack extends cdk.Stack {
       },
     });
 
+    /**
+     * Scaling policy to scale based on no. of requests per min.
+     */
     asg.scaleOnRequestCount('requests-per-minute', {
       targetRequestsPerMinute: 60,
     });
 
-
+    /**
+     * Scaling policy to scale only if CPU Utilization
+     * is over and above 75%
+     */
     asg.scaleOnCpuUtilization('cpu-util-scaling', {
       targetUtilizationPercent: 75,
     });
 
-
-    new cdk.CfnOutput(this, 'DNS_for_alb', {
+    /**
+     * Output the DNS for ALB after CDK creates stack
+     */
+    new cdk.CfnOutput(this, 'dns-for-alb', {
       value: alb.loadBalancerDnsName,
     });
 
   }
 }
-
-const app = new cdk.App();
-new LoadBalancedAppStack(app, 'alb-asg-app-stack', {
-  tags: {
-    "Name": "02-server-availability-revised_implementation",
-    "Project": "pilot",
-    "Branch": "02-sever-availability",
-    "Implementation": "revised"
-  }
-})

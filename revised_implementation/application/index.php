@@ -5,10 +5,20 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+function get_http_response_code($url)
+{
+  $headers = get_headers($url);
+  return substr($headers[0], 9, 3);
+}
+
 function fetchHostName()
 {
-  $hostname = file_get_contents('http://169.254.169.254/latest/meta-data/public-hostname');
-  return (empty($hostname)) ? "No Public DNS - (EC2 in a private subnet)" : $hostname;
+  $ec2MetaDataDNSUrl = 'http://169.254.169.254/latest/meta-data/public-hostname';
+  if (get_http_response_code($ec2MetaDataDNSUrl) != "200") {
+    return "No Public DNS - (EC2 in a private subnet)";
+  } else {
+    return file_get_contents($ec2MetaDataDNSUrl);
+  }
 }
 ?>
 
